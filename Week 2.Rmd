@@ -1,0 +1,35 @@
+---
+title: "Developing Data Products - Data Science Specialization"
+author: "C Hales"
+date: "April 2017"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+if(!require(leaflet)) install_github("rstudio/leaflet")
+if(!require(rgdal)) install_github("rstudio/rgdal")
+library(leaflet)
+library(rgdal)
+```
+
+## Introduction
+
+Week 2 project of publishing an interactive map using the leaflet package.  The date today is `r format(Sys.time(), "%d %B, %Y")`.
+
+## Map
+
+The red route shows last Saturday's cycle ride with a marker for the start and end point, and a circle for the cafe stop.
+
+```{r leaflet, echo=FALSE}
+track <- readOGR(dsn='C:/Users/117031/Documents/R/DevDataProducts/Ride.gpx', layer = "tracks")
+my_map <- leaflet() %>% addTiles() %>% setView(lng=-0.12, lat=51.5, zoom =9) %>% addPolylines(data=track, color="red", weight=4)
+
+my_map <- my_map %>% addMarkers(lng=-0.099496, lat=51.485466, popup="Start and End Point")
+
+my_map <- my_map %>% addCircleMarkers(lng=0.157284, lat=51.787638, popup="Cafe stop at Mayfield Farm")
+
+my_map
+
+```
+
